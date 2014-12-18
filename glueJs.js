@@ -9,6 +9,7 @@
         data: {},
         init: function () { 
             var me = this;
+            me.data = {};
             me._findBase();
         },
         _findBase: function () {
@@ -28,10 +29,10 @@
                 }
             });
             if (!hasChild) {
-                me._setValue(dom, path);
+                me._initValue(dom, path);
             }
         },
-        _setValue: function(dom, path) {
+        _initValue: function(dom, path) {
             var me = this;
             var val = dom.is(':input') ? dom.val() : dom.text();
             dom.attr('gl-id', path.join('.'));
@@ -77,11 +78,29 @@
             if (typeof(path) !== 'string') path = path.attr('gl-id');
             if (typeof(val) === 'undefined') val = dom.is(':input') ? dom.val() : dom.text();
             $('*[gl-id="'+path+'"]').each(function() {
-                if ($(this).is(':input')) $(this).val(val);
-                else $(this).text(val);
+                me._val($(this), val);
             });
             me._setData(path.split('.'), val);
             return me;
+        },
+        pull: function(dom, variables) {
+            var me = this;
+            dom.find('*[gl-pull]').each(function() {
+                var path = $(this).attr('gl-pull');
+                $.each(variables, function(search, replace) {
+                    path = path.replace(search, replace);
+                });
+                me._val($(this), me.get(path.split('.')));
+            });
+            dom.find('*[gl-var]').each(function() {
+                var attr = $(this).attr('gl-var');
+                if (typeof(variables[attr]) !== 'undefined') me._val($(this), variables[attr]);
+            });
+            return me;
+        },
+        _val: function(dom, val) {
+            if (dom.is(':input')) dom.val(val);
+            else dom.text(val);  
         },
     };
     
