@@ -90,13 +90,21 @@
                 $.each(variables, function(search, replace) {
                     path = path.replace(search, replace);
                 });
+                $(this).attr('gl-id', path);
                 me._val($(this), me.get(path.split('.')));
             });
             dom.find('*[gl-var]').each(function() {
                 var attr = $(this).attr('gl-var');
-                if (typeof(variables[attr]) !== 'undefined') me._val($(this), variables[attr]);
+                if (typeof(variables[attr]) !== 'undefined') {
+                    me._val($(this), variables[attr]);
+                    $(this).attr('gl-val', variables[attr]);
+                }
             });
             return me;
+        },
+        push: function(dom) {
+            var me = this;
+            me.set(dom, dom.is(':input') ? dom.val() : dom.text());
         },
         _val: function(dom, val) {
             if (dom.is(':input')) dom.val(val);
@@ -105,4 +113,8 @@
     };
     
     $.glueJs = new glueJs();
+    
+    $.fn.glueJs = function(action) {
+        if (action === 'push') $.glueJs.push($(this));
+    };
 }(jQuery));
