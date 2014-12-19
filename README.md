@@ -20,7 +20,10 @@ As you could do with AngularJs and other JS framework, this little jQuery plugin
 <input name="firstname" type="text" gl-pull="abc.%row%.firstname" placeholder="firstname" />
 ```
 ```
-$('input')
+$('input').glueJs('pull', {'%row%': 1 });
+```
+```
+$('input').glueJs('push');
 ```
 
 ## Balise attributes
