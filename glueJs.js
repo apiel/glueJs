@@ -95,10 +95,10 @@
                 dom.attr('gl-id', path);
                 me._val(dom, me.get(path.split('.')));
             } else if (typeof(variables)!== 'undefined' && dom.is('[gl-var]')) {
-                var attr = $(this).attr('gl-var');
+                var attr = dom.attr('gl-var');
                 if (typeof(variables[attr]) !== 'undefined') {
-                    me._val($(this), variables[attr]);
-                    $(this).attr('gl-val', variables[attr]);
+                    me._val(dom, variables[attr]);
+                    dom.attr('gl-val', variables[attr]);
                 }
             }
         },
