@@ -83,22 +83,29 @@
             me._setData(path.split('.'), val);
             return me;
         },
-        pull: function(dom, variables) {
+        _pull: function(dom, variables) {
             var me = this;
-            dom.find('*[gl-pull]').each(function() {
-                var path = $(this).attr('gl-pull');
-                $.each(variables, function(search, replace) {
-                    path = path.replace(search, replace);
-                });
-                $(this).attr('gl-id', path);
-                me._val($(this), me.get(path.split('.')));
-            });
-            dom.find('*[gl-var]').each(function() {
+            if (dom.is('[gl-pull]')) {
+                var path = dom.attr('gl-pull');
+				if (typeof(variables)!== 'undefined') {
+					$.each(variables, function(search, replace) {
+						path = path.replace(search, replace);
+					});
+				}
+                dom.attr('gl-id', path);
+                me._val(dom, me.get(path.split('.')));
+            } else if (typeof(variables)!== 'undefined' && dom.is('[gl-var]')) {
                 var attr = $(this).attr('gl-var');
                 if (typeof(variables[attr]) !== 'undefined') {
                     me._val($(this), variables[attr]);
                     $(this).attr('gl-val', variables[attr]);
                 }
+            }
+        },
+        pull: function(dom, variables) {
+            var me = this;
+            dom.find('*[gl-pull],*[gl-var]').each(function() {
+                me._pull($(this), variables);
             });
             return me;
         },
@@ -114,7 +121,10 @@
     
     $.glueJs = new glueJs();
     
-    $.fn.glueJs = function(action) {
-        if (action === 'push') $.glueJs.push($(this));
+    $.fn.glueJs = function(action, options) {
+		$(this).each(function() {
+			if (action === 'push') $.glueJs.push($(this));
+			if (action === 'pull') $.glueJs._pull($(this), options);
+		});
     };
 }(jQuery));
