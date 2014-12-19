@@ -5,6 +5,18 @@ Jquery library to bind data together.
 
 As you could do with AngularJs and other JS framework, this little jQuery plugin is build to manipulate data. The plugin will analyse the dom view and build a JS object out of it. Then you will be able manipulate the data and populate it to the differente place of your view.
 
+## Example
+
+```
+<table gl-base="abc">
+	<tbody>
+		<tr gl-path="1"><td gl-path="firstname">Alexandre</td><td gl-path="lastname">Piel</td></tr>
+		<tr gl-path="2"><td gl-path="firstname">Jean</td><td gl-path="lastname">Fontaine</td></tr>
+		<tr gl-path="3"><td gl-path="firstname">Hello</td><td gl-path="lastname">World</td></tr>
+	</tbody>
+</table>
+```
+
 ## Balise attributes
 
 - **gl-base** : define the root of your current object
