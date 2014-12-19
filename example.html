@@ -27,6 +27,7 @@
 
 	$('table button').click(function() {
 		$.glueJs.pull($('#edit'), {'%row%': $(this).closest('tr').attr('gl-path') });
+		//or $('#edit :input').glueJs('pull', {'%row%': $(this).closest('tr').attr('gl-path') });
 	});
 	
 	$('#edit button').click(function() {
