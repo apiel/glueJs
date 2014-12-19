@@ -1,0 +1,22 @@
+{
+  "name": "glueJs",
+  "description": "Jquery library to bind data together. As you could do with AngularJs and other JS framework, this little jQuery plugin is build to manipulate data. The plugin will analyse the dom view and build a JS object out of it. Then you will be able manipulate the data and populate it to the differente place of your view.",
+  "keywords": [
+    "jquery-plugin",
+    "bind",
+    "data",
+    "javascript",
+    "jquery"
+  ],
+  "version": "1.0.0",
+  "author": "Alexandre Piel (https://github.com/apiel)",
+  "license": "GPL-2.0+",
+  "main": "glueJs.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apiel/glueJs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/apiel/glueJs.git/issues"
+  }
+}
