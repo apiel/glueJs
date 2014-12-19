@@ -23,7 +23,7 @@ As you could do with AngularJs and other JS framework, this little jQuery plugin
 $('input').glueJs('pull', {'%row%': 1 }); // pull the firstname of the row 1 into the input
 ```
 ```
-$('input').glueJs('push'); // push the changes done in the input
+$('input').glueJs('push'); // push the changes
 ```
 
 ## Balise attributes
