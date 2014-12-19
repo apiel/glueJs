@@ -3,7 +3,7 @@ glueJs
 
 Jquery library to bind data together.
 
-As you could do with AngularJs and other JS framework, this little jQuery plugin is build to manipulate data. The plugin will analyse the view (dom) and build a JS object out of it. Then you will be able manipulate the data and populate it to the differente place of your view.
+As you could do with AngularJs and other JS framework, this little jQuery plugin is build to manipulate data. The plugin will analyse the dom view and build a JS object out of it. Then you will be able manipulate the data and populate it to the differente place of your view.
 
 ## Balise attributes
 
