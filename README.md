@@ -19,6 +19,9 @@ As you could do with AngularJs and other JS framework, this little jQuery plugin
 ```
 <input name="firstname" type="text" gl-pull="abc.%row%.firstname" placeholder="firstname" />
 ```
+```
+$('input')
+```
 
 ## Balise attributes
 
