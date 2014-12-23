@@ -89,7 +89,7 @@
                 var path = dom.attr('gl-pull');
 				if (typeof(variables)!== 'undefined') {
 					$.each(variables, function(search, replace) {
-						path = path.replace(search, replace);
+						path = path.replace(new RegExp(search, 'g'), replace);
 					});
 				}
                 dom.attr('gl-id', path);
