@@ -24,8 +24,10 @@
             var hasChild = 0;
             dom.find('*[gl-path]').each(function() { // foreach of them set gl-id
                 var parent = $(this).parent().closest('*[gl-base],*[gl-path]'); 
-                if (parent[0] == dom[0]) {
-                    me._findPath($(this), path+'.'+$(this).attr('gl-path'));
+                if (parent[0] === dom[0]) {
+                    var _path = path+'.'+$(this).attr('gl-path');
+                    $(this).attr('gl-id', _path);
+                    me._findPath($(this), _path);
                     hasChild++;
                 }
             });
@@ -48,16 +50,17 @@
           me.cacheData[path] = val;
         },
         getPath: function(dom) {
-            var path = [];
-            var isBase = false;
-            while(!isBase) {
-                dom = dom.closest('*[gl-base],*[gl-path]');
-                isBase = dom.is('*[gl-base]');
-                var attr = isBase ? dom.attr('gl-base') : dom.attr('gl-path');
-                path.push(attr);
-                dom = dom.parent();
-            }
-            return path.join('.');
+          return dom.closest('*[gl-base],*[gl-path]').attr('gl-id');
+//            var path = [];
+//            var isBase = false;
+//            while(!isBase) {
+//                dom = dom.closest('*[gl-base],*[gl-path]');
+//                isBase = dom.is('*[gl-base]');
+//                var attr = isBase ? dom.attr('gl-base') : dom.attr('gl-path');
+//                path.push(attr);
+//                dom = dom.parent();
+//            }
+//            return path.join('.');
         },
         _setData: function(data, path, val) {
             var me = this;
