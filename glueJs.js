@@ -98,7 +98,8 @@
             }
             return me;
         },
-        setTpl: function(path) { // to optimise!!!
+        // maybe tpl should be an extension!!
+        setTpl: function(path) { // to optimise!!! // $.glueJs.set('abc.4.firstname', 'Alexandre')
           var me = this;
           if (!$('*[gl-id="'+path+'"]').length) {
             var _path = [];
@@ -108,12 +109,34 @@
               var __path = _path.join('.');
               var tpl = $('*[gl-tpl="'+__path+'"]');
               if (tpl.length && !$('*[gl-id="'+__path+'.'+path[k+1]+'"]').length) {
-                var newTpl = tpl.clone().removeAttr('gl-tpl').attr('gl-path', path[k+1]).show();
-                me._findPath(newTpl, __path+'.'+path[k+1]);
+                var ___path = __path+'.'+path[k+1];
+                var newTpl = tpl.clone().removeAttr('gl-tpl')
+                                .attr('gl-path', path[k+1])
+                                .attr('gl-id', ___path).show();
+                me._findPath(newTpl, ___path);
                 tpl.parent().append(newTpl);
               }
             });
           }
+        },
+        // maybe loadData should be an extension
+        loadData: function(data, path) {
+          if (typeof(path) === 'undefined') path = [];
+          else if (typeof(path) === 'string') path = path.split('.');
+          this._loadData(data, path);
+        },
+        _loadData: function(data, path) { // to optimise!
+          var me = this;
+          $.each(data, function(k, v) {
+            path.push(k);
+            if (typeof(v) === 'object') {
+              me.loadData(v, path); // we could use setTimeout??
+            }
+            else {
+              me.set(path.join('.'), v);
+            }
+            path.pop();
+          });
         },
         _pull: function(dom, variables) {
             var me = this;

@@ -1,0 +1,60 @@
+<h2>Example 1</h2>
+
+<p gl-base="abc">Application realised by <span gl-path="1.firstname">Alexandre</span> <span gl-path="1.lastname">Piel</span></p>
+<table gl-base="abc">
+	<tbody>
+        <tr gl-tpl><td gl-path="firstname"></td><td gl-path="lastname"></td><td><button>Edit</button></td></tr>
+		<tr gl-path="1"><td gl-path="firstname">Alexandre</td><td gl-path="lastname">Piel</td><td><button>Edit</button></td></tr>
+		<tr gl-path="2"><td gl-path="firstname">Jean</td><td gl-path="lastname">Fontaine</td><td><button>Edit</button></td></tr>
+		<tr gl-path="3"><td gl-path="firstname">Hello</td><td gl-path="lastname">World</td><td><button>Edit</button></td></tr>
+	</tbody>
+</table>
+
+<p>
+  <button class="loadData">Load data</button>
+  <button class="loadDataMore">Load much more</button>
+</p>
+<p id="edit">
+	Row <span gl-var="%row%"></span><br />
+	<input name="firstname" type="text" gl-pull="abc.%row%.firstname" placeholder="firstname" /><br />
+	<input name="lastname" type="text" gl-pull="abc.%row%.lastname" placeholder="lastname" /><br />
+	<button>Save</button>
+</p>
+<p><label>Json Object</label></p>
+<p><textarea rows="5" cols="50"></textarea></p>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="glueJs.js"></script>
+
+<script>
+(function ($) {     
+	$('textarea').val(JSON.stringify($.glueJs.get()));
+
+	$('table button').click(function() {
+		$.glueJs.pull($('#edit'), {'%row%': $(this).closest('tr').attr('gl-path') });
+		//or $('#edit :input').glueJs('pull', {'%row%': $(this).closest('tr').attr('gl-path') });
+	});
+	
+	$('#edit button').click(function() {
+		$(':input[gl-pull]').glueJs('push');
+		
+		$('textarea').val(JSON.stringify($.glueJs.get()));
+	});
+    
+    $('.loadData').click(function() {
+      $.glueJs.loadData({"abc": {
+        "4":{"firstname":"Yoyo2","lastname":"Hihi2"},
+        "5":{"firstname":"Yoyo3","lastname":"Hihi3"},
+        "6":{"firstname":"Yoyo4","lastname":"Hihi4"}
+      }});
+    });
+    
+    $('.loadDataMore').click(function() {
+      for (id = 10; id < 100; id++) { 
+        var data = {};
+        data[id] = {"firstname":"Yoyo"+id,"lastname":"Hihi"+id};
+        $.glueJs.loadData(data, "abc");
+      }
+    });
+}(jQuery));
+</script>
