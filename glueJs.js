@@ -6,11 +6,10 @@
         this.init();
     };
     glueJs.prototype = {
-        data: {},
         cacheData: {},
         init: function () { 
             var me = this;
-            me.data = {};
+            $('*[gl-tpl]').hide();
             me._findBase();
         },
         _findBase: function () {
@@ -22,7 +21,12 @@
         _findPath: function(dom, path) {
             var me = this;
             var hasChild = 0;
-            dom.find('*[gl-path]').each(function() { // foreach of them set gl-id
+            dom.find('*[gl-path]').each(function() {
+              var tpl = $(this).closest('*[gl-tpl]');
+              if (tpl.length) { // if is in template
+                tpl.attr('gl-tpl', path);
+              }
+              else {
                 var parent = $(this).parent().closest('*[gl-base],*[gl-path]'); 
                 if (parent[0] === dom[0]) {
                     var _path = path+'.'+$(this).attr('gl-path');
@@ -30,6 +34,7 @@
                     me._findPath($(this), _path);
                     hasChild++;
                 }
+              }
             });
             if (!hasChild) {
                 me._initValue(dom, path);
@@ -51,16 +56,6 @@
         },
         getPath: function(dom) {
           return dom.closest('*[gl-base],*[gl-path]').attr('gl-id');
-//            var path = [];
-//            var isBase = false;
-//            while(!isBase) {
-//                dom = dom.closest('*[gl-base],*[gl-path]');
-//                isBase = dom.is('*[gl-base]');
-//                var attr = isBase ? dom.attr('gl-base') : dom.attr('gl-path');
-//                path.push(attr);
-//                dom = dom.parent();
-//            }
-//            return path.join('.');
         },
         _setData: function(data, path, val) {
             var me = this;
@@ -95,12 +90,30 @@
             var me = this;
             if (typeof(path) !== 'string') path = path.attr('gl-id');
             if (me._getCacheData(path) !== val) {
+              me.setTpl(path);
               $('*[gl-id="'+path+'"]').each(function() {
                   me._val($(this), val);
               });
               me._setCacheData(path, val);
             }
             return me;
+        },
+        setTpl: function(path) { // to optimise!!!
+          var me = this;
+          if (!$('*[gl-id="'+path+'"]').length) {
+            var _path = [];
+            path = path.split('.');
+            $.each(path.slice(0, -1), function(k, name) {
+              _path.push(name);
+              var __path = _path.join('.');
+              var tpl = $('*[gl-tpl="'+__path+'"]');
+              if (tpl.length && !$('*[gl-id="'+__path+'.'+path[k+1]+'"]').length) {
+                var newTpl = tpl.clone().removeAttr('gl-tpl').attr('gl-path', path[k+1]).show();
+                me._findPath(newTpl, __path+'.'+path[k+1]);
+                tpl.parent().append(newTpl);
+              }
+            });
+          }
         },
         _pull: function(dom, variables) {
             var me = this;
