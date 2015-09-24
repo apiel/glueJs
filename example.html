@@ -23,7 +23,7 @@
 
 <script>
 (function ($) {     
-	$('textarea').val(JSON.stringify($.glueJs.data));
+	$('textarea').val(JSON.stringify($.glueJs.get()));
 
 	$('table button').click(function() {
 		$.glueJs.pull($('#edit'), {'%row%': $(this).closest('tr').attr('gl-path') });
@@ -33,7 +33,7 @@
 	$('#edit button').click(function() {
 		$(':input[gl-pull]').glueJs('push');
 		
-		$('textarea').val(JSON.stringify($.glueJs.data));
+		$('textarea').val(JSON.stringify($.glueJs.get()));
 	});
 }(jQuery));
 </script>
