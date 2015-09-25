@@ -130,7 +130,7 @@
           $.each(data, function(k, v) {
             path.push(k);
             if (typeof(v) === 'object') {
-              me.loadData(v, path); // we could use setTimeout??
+              me._loadData(v, path); // we could use setTimeout??
             }
             else {
               me.set(path.join('.'), v);
